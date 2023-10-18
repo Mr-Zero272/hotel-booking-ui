@@ -99,10 +99,10 @@ function Header({ onToggleMenu }) {
                     ) : (
                         <>
                             <div className={cx('action')}>
-                                <button to={'/register'}>Register</button>
+                                <Link to={'/register'}>Register</Link>
                             </div>
                             <div className={cx('action')}>
-                                <button className={cx('login-btn')}>Login</button>
+                                <Link to={'/login'}>Login</Link>
                             </div>
                         </>
                     )}
