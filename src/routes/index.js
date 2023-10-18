@@ -1,9 +1,9 @@
 import { HeaderOnly } from '~/Layout';
 
-import Home from '~/components/pages/Home';
-import About from '~/components/pages/About';
-import Register from '~/components/pages/Register';
-import Login from '~/components/pages/Login';
+import Home from '~/pages/Home';
+import About from '~/pages/About';
+import Register from '~/pages/Register';
+import Login from '~/pages/Login';
 
 const publicRoutes = [
     { path: '/', component: Home },

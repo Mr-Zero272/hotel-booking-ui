@@ -14,6 +14,7 @@ import images from '~/assets/images';
 import Search from '../Search';
 
 import styles from './Header.module.scss';
+import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -99,10 +100,14 @@ function Header({ onToggleMenu }) {
                     ) : (
                         <>
                             <div className={cx('action')}>
-                                <Link to={'/register'}>Register</Link>
+                                <Button text to={'/register'}>
+                                    Register
+                                </Button>
                             </div>
                             <div className={cx('action')}>
-                                <Link to={'/login'}>Login</Link>
+                                <Button primary to={'/login'}>
+                                    Login
+                                </Button>
                             </div>
                         </>
                     )}
