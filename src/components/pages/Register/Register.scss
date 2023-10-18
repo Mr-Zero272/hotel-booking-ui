@@ -1,0 +1,117 @@
+.signup_container {
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    background: linear-gradient(to bottom left, #add8e6, #6495ed, transparent),
+        linear-gradient(to top right, #ff69b4, #ff1493, transparent);
+
+    .signup_form {
+        margin-top: 50px;
+        width: 35%;
+        height: 600px;
+        animation: slideInFromRight 1s ease forwards;
+
+        background: linear-gradient(45deg, #ff1493, #9400d3, #6495ed, #32cd32, #ff5733);
+        h1 {
+            font-size: 40px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff1493, #9400d3, #6495ed, #32cd32, #ff5733);
+        }
+
+        .form {
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 5px;
+
+            label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 10px;
+                font-size: 17px;
+                text-align: left;
+            }
+
+            input[type='text'],
+            input[type='email'],
+            input[type='password'] {
+                width: 100%;
+                padding: 1rem;
+                font-size: 1.5rem;
+                display: block;
+                border: 1px solid #000;
+                border-radius: 10px;
+                background: linear-gradient(to bottom left, #ff69b4, #6495ed, transparent);
+                transition: background 0.3s;
+            }
+
+            input[type='text']:focus,
+            input[type='email']:focus,
+            input[type='password']:focus {
+                background: linear-gradient(to bottom left, #ff1493, #6495ed, transparent);
+            }
+
+            p {
+                color: red;
+                font-size: 17px;
+            }
+
+            .input-group {
+                position: relative;
+
+                button {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+            }
+            .btnSignup {
+                background-color: #32cd32;
+                width: 60%;
+                color: white;
+                padding: 1rem 2rem;
+                font-size: 1.5rem;
+                border: none;
+                cursor: pointer;
+                border-radius: 10px;
+                border: 1px solid #4caf50;
+                display: block;
+                margin: 2rem auto;
+                text-align: center;
+            }
+        }
+
+        button {
+            background-color: dodgerblue;
+            color: white;
+            padding: 1rem 1.9rem;
+            font-size: 1.7rem;
+            border: none;
+            cursor: pointer;
+
+            border-radius: 10px;
+            display: block;
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+        span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
