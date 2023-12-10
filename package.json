@@ -19,8 +19,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.2",
-    "chart.js": "^4.4.1",
-    "chartjs-plugin-labels": "^1.1.0",
+   
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
     "normalize.css": "^8.0.1",
