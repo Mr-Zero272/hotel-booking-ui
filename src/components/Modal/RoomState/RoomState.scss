@@ -1,0 +1,44 @@
+.div-modal{
+    margin-top: 200px;
+    height: 300px;
+}
+
+.close-modal {
+    background-color: #32cd32;
+    width: 60%;
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid #4caf50;
+    display: block;
+    margin: 2rem auto;
+    text-align: center;
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.form-modal{
+    margin-top: 50px;
+    top: 200px;
+    height: 250px;
+    width: 100%;
+    background-color: red;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-modal {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: linear-gradient(to bottom left, #ff69b4, #6495ed, transparent);
+    transition: background 0.3s;
+}
