@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './Login.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 import validation from './LoginValidation';
+import axios from 'axios';
 
 function LoginForm() {
+    const navigate = useNavigate();
     const [values, setValues] = useState({
         username: '',
         password: '',
@@ -22,7 +24,24 @@ function LoginForm() {
         e.preventDefault();
         setErrors(validation(values));
         if (Object.keys(validation(values)).length === 0) {
-            alert('Form Submitted successfully');
+            const login = async () => {
+                try {
+                    const result = await axios.post('http://localhost:8082/api/v1/auth/authenticate', {
+                        email: values.username,
+                        password: values.password,
+                    });
+                    // console.log(result);
+                    if (result.data.message !== 'success') {
+                        alert('Your username or password is incorrect!!!');
+                    } else {
+                        localStorage.setItem('token', result.data.token);
+                        navigate('/');
+                    }
+                } catch (error) {
+                    alert('Login failed!');
+                }
+            };
+            login();
         }
     }
 
@@ -63,7 +82,7 @@ function LoginForm() {
                         <label style={{ display: 'flex', alignItems: 'center' }}>
                             <input type="checkbox" defaultChecked name="remember" /> Remember me
                             <label style={{ marginLeft: 'auto' }}>
-                                <a href="#">Forgot Password</a>
+                                <a href="/">Forgot Password</a>
                             </label>
                         </label>
                     </div>
@@ -76,17 +95,17 @@ function LoginForm() {
                             <strong>Or Login Using</strong>
                             <div className="social-icons">
                                 <div className="icon-circle facebook-circle">
-                                    <a href="#">
+                                    <a href="/">
                                         <FontAwesomeIcon icon={faFacebookF} className="facebook-icon" />
                                     </a>
                                 </div>
                                 <div className="icon-circle google-circle">
-                                    <a href="#">
+                                    <a href="/">
                                         <FontAwesomeIcon icon={faGoogle} className="google-icon" />
                                     </a>
                                 </div>
                                 <div className="icon-circle twitter-circle">
-                                    <a href="#">
+                                    <a href="/">
                                         <FontAwesomeIcon icon={faTwitter} className="twitter-icon" />
                                     </a>
                                 </div>

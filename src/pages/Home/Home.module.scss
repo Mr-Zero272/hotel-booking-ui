@@ -1,0 +1,102 @@
+.post {
+    /* margin-top: 120px; */
+    width: 100%;
+    list-style: none;
+    position: relative;
+    padding: 0;
+    display: block;
+}
+.postFrame {
+}
+
+.postItem {
+    position: relative;
+    display: flex;
+    border: 1px solid #ddd;
+    margin: 10px auto;
+    width: calc(70% - 0.8rem);
+    height: 185px;
+    border-radius: 10px;
+    background-color: rgb(245, 238, 238);
+}
+.headerPost {
+    .postImage {
+        height: 100%;
+        width: 230px;
+    }
+}
+.bodyPost {
+    margin-top: 5px;
+
+    .postBodyItem {
+        margin: 15px;
+    }
+}
+.footerPost {
+    position: absolute;
+    right: 0;
+    display: block;
+    height: 100%;
+    width: 30%;
+
+    .postFooterItemHeader {
+        display: block;
+        position: absolute;
+        width: 97%;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        height: 65%;
+        margin: 5px;
+        background: rgb(224, 249, 198);
+
+        .postFooterItemHeaderContent {
+            margin-left: 15px;
+        }
+        .postFooterItemHeaderTitle {
+            margin: 5px;
+        }
+
+        .postFooterItemHeaderFooter {
+            width: 100%;
+            height: 30%;
+            margin-top: 30px;
+            .postFooterItemHeaderFooterBtn {
+                margin-right: 10px;
+                background: rgb(35, 203, 35);
+                border-radius: 8px;
+                height: 25px;
+                width: 100%;
+            }
+        }
+    }
+
+    .postFooterItemBlock {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        bottom: 0;
+        margin: 5px;
+
+        .postFooterItemBlockItemLeft {
+            display: block;
+            position: relative;
+            width: 30%;
+            margin-right: 2.5px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            background: rgb(224, 226, 224);
+        }
+
+        .postFooterItemBlockItemRight {
+            display: block;
+            position: relative;
+            width: 95%;
+            margin-right: 5px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            background: rgb(224, 226, 224);
+        }
+    }
+}

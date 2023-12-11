@@ -1,64 +1,64 @@
-import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import { jwtDecode } from 'jwt-decode';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faEarthAsia,
-    faRightToBracket,
-    faBars,
-    faShareFromSquare,
-    faUser,
-    faTicket,
-} from '@fortawesome/free-solid-svg-icons';
-import images from '~/assets/images';
-import Search from '../Search';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
+import { userActions } from '~/store/user-slice';
+import images from '~/assets/images';
+import * as userService from '~/apiServices/userService';
+import Search from '../Search';
 import styles from './Header.module.scss';
 import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-const MENU_ITEMS = [
-    {
-        icon: <FontAwesomeIcon icon={faEarthAsia} />,
-        title: 'English',
-        children: {
-            data: [
-                {
-                    code: 'en',
-                    title: 'English',
-                },
-                {
-                    code: 'vi',
-                    title: 'Vietnam',
-                },
-            ],
-        },
-    },
-];
-
-const userMenu = [
-    {
-        icon: <FontAwesomeIcon icon={faUser} />,
-        title: 'ViewProfile',
-        to: '/profile',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faTicket} />,
-        title: 'My ticket',
-        to: '/ticket',
-    },
-    ...MENU_ITEMS,
-    {
-        icon: <FontAwesomeIcon icon={faShareFromSquare} />,
-        title: 'Logout',
-        action: 'logout',
-        separate: true,
-    },
-];
+const isExpired = (d1) => {
+    const today = new Date();
+    return d1.getTime() < today.getTime();
+};
 
 function Header({ onToggleMenu }) {
-    const currentUser = false;
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state) => state.user);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        if (token === '' || token === null) {
+            localStorage.setItem('token', '');
+            dispatch(userActions.setUserStatus('logout'));
+        } else {
+            const tokenDecode = jwtDecode(token);
+            if (!isExpired(new Date(tokenDecode.exp * 1000))) {
+                const fetchApi = async (token) => {
+                    const result = await userService.getCurrentUser(token);
+                    //console.log(result.data);
+                    dispatch(
+                        userActions.setUserNecessaryInfo({
+                            status: 'online',
+                            username: tokenDecode.sub,
+                            avatar: result.avatar,
+                            roles: result.roles,
+                            name: result.name,
+                        }),
+                    );
+                };
+                fetchApi(token);
+            } else {
+                dispatch(userActions.setUserStatus('logout'));
+                localStorage.setItem('token', '');
+            }
+        }
+
+        // return () => {
+        //     dispatch(userActions.clearUserInfo());
+        // };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <header className={cx('container')}>
             <nav className={cx('wrapper')}>
@@ -68,33 +68,38 @@ function Header({ onToggleMenu }) {
                 <Link className={cx('logo')} to="/">
                     <img src={images.logo} alt="logo" height={30} width={30} />
                     <h4 className={cx('logo-heading')}>
-                        Moon <span style={{ color: 'var(--primary)' }}>M</span>ovie
+                        <span style={{ color: 'var(--primary)' }}>H</span>otel
                     </h4>
                 </Link>
                 <div className={cx('body')}>
                     <Search />
                 </div>
                 <div className={cx('actions')}>
-                    {currentUser ? (
+                    {currentUser.status === 'online' ? (
                         <>
                             <div className={cx('action')}>
-                                <button className={cx('cart')} text to="/ticket">
+                                <Button className={cx('cart')} to="/cart">
                                     <p className={cx('cart_quantity')}>3</p>
                                     {/* <FontAwesomeIcon icon={faCartShopping} /> */}
                                     <img src={images.cart} alt="logo" height={30} width={30} />
-                                </button>
+                                </Button>
                             </div>
                             <div className={cx('action')}>
-                                <button to="/profile" className={cx('more-btn')}>
+                                <Link to="/profile" className={cx('more-btn')}>
                                     {/* <Image className={cx('user-avatar')} src={avatar} alt="avatar" ref={imageRef} /> */}
                                     {/* <img className={cx('user-avatar')} src={avatar} alt="avatar" ref={imageRef} /> */}
                                     <img
                                         className={cx('user-avatar')}
-                                        src="https://i.pinimg.com/originals/99/85/2d/99852dc70a4afd179eb15fe361ca0cb3.jpg"
+                                        src={'http://localhost:8082/img/' + currentUser.avatar}
                                         alt="avatar"
                                     />
                                     {/* <img className={cx('user-avatar')} src={images.fakeAvatar} alt="avatar" /> */}
-                                </button>
+                                </Link>
+                            </div>
+                            <div className={cx('action')}>
+                                <Button text onClick={() => dispatch(userActions.logout())}>
+                                    Logout
+                                </Button>
                             </div>
                         </>
                     ) : (
