@@ -1,0 +1,145 @@
+.login_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    background: linear-gradient(to bottom left, #add8e6, #6495ed, transparent),
+        linear-gradient(to top right, #ff69b4, #ff1493, transparent);
+}
+
+.login-form {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 35%;
+    height: 800px;
+    animation: slideInFromTop 1s ease forwards;
+    background: linear-gradient(45deg, #ff1493, #9400d3, #6495ed, #32cd32, #ff5733);
+
+    form {
+        padding: 1.5rem;
+        text-align: center;
+        border-radius: 5px;
+        min-height: 100%;
+    }
+
+    h1 {
+        text-align: center;
+        background: linear-gradient(45deg, #ff1493, #9400d3, #6495ed, #32cd32, #ff5733);
+    }
+
+    .img-container {
+        text-align: center;
+        margin: 24px 0 12px 0;
+    }
+
+    img.avatar {
+        width: 35%;
+        border-radius: 50%;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+
+    label {
+        margin-bottom: 4px;
+    }
+
+    input[type='text'],
+    input[type='password'] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        border-radius: 10px;
+        background: linear-gradient(to bottom left, #ff69b4, #6495ed, transparent);
+        transition: background 0.3s;
+    }
+
+    button {
+        background-color: #32cd32;
+        width: 60%;
+        color: white;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+        border: 1px solid #4caf50;
+        display: block;
+        margin: 2rem auto;
+        text-align: center;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: black;
+        padding: 10px;
+
+        border-radius: 10px;
+        color: white;
+    }
+}
+
+.center-content {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 5px;
+}
+.facebook-circle {
+    background: #1877f2;
+}
+
+.google-circle {
+    background: #db4437;
+}
+
+.twitter-circle {
+    background: #00acee;
+}
+
+.facebook-icon {
+    color: white;
+    font-size: 30px;
+}
+
+.google-icon {
+    color: white;
+    font-size: 30px;
+}
+
+.twitter-icon {
+    color: white;
+    font-size: 30px;
+}
+
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
