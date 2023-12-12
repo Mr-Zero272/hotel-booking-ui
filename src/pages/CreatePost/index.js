@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './CreatePost.module.scss';
 import axios from 'axios';
+import { format } from 'date-fns';
 
+import styles from './CreatePost.module.scss';
 function CreatePost() {
+    const getTodayDate = () => {
+        const today = new Date();
+        return today.toISOString().split('T')[0];
+    };
     const [imageUpload, setImageUpload] = useState(null);
     const inputRef = useRef(null);
     const [saveImagePost, setSaveImagePost] = useState(false);
@@ -11,19 +16,25 @@ function CreatePost() {
         title: '',
         description: '',
         idroomDto: '',
+        discount: '',
     });
     const [rooms, setRooms] = useState([]);
     const [hotels, setHotels] = useState([]);
     const [availableRooms, setAvailableRooms] = useState([]);
     // const [roomImageUpload, setRoomImageUpload] = useState(null);
-
+    const [startTime, setStartTime] = useState(getTodayDate());
+    const [endTime, setEndTime] = useState(getTodayDate());
     useEffect(() => {
         fetchHotelData();
     }, []);
 
+    const IsValidDate = (date) => {
+        const today = new Date();
+        return date instanceof Date && !isNaN(date) && date >= today;
+    };
     const fetchHotelData = async () => {
         try {
-            const hotelResponse = await axios.get('http://localhost:8082/api/listHotel');
+            const hotelResponse = await axios.get('http://localhost:8082/api/post/listHotel');
 
             setHotels(hotelResponse.data);
         } catch (error) {
@@ -33,7 +44,7 @@ function CreatePost() {
     const fetchRoomData = async () => {
         try {
             console.log(postValue.hotelId);
-            const roomResponse = await axios.get(`http://localhost:8082/api/roomhotel/${postValue.hotelId}`);
+            const roomResponse = await axios.get(`http://localhost:8082/api/post/roomhotel/${postValue.hotelId}`);
             setAvailableRooms(roomResponse.data);
         } catch (error) {
             console.log('Error fetching data', error.message);
@@ -74,6 +85,25 @@ function CreatePost() {
         }
     };
 
+    const handleSelectStartDate = (e) => {
+        const selectStartDay = new Date(e.target.value);
+        if (IsValidDate(selectStartDay)) {
+            //  setPostValue((preValue) => ({ ...preValue, start_time: format(selectStartDay, 'yyyy/MM/dd') }));
+            setStartTime(selectStartDay.toISOString().split('T')[0]);
+        } else {
+            alert('Set start time error');
+        }
+    };
+    // console.log(postValue);
+    const handleSelectEndDate = (e) => {
+        const selectStartDay = new Date(e.target.value);
+        if (IsValidDate(selectStartDay) && selectStartDay >= new Date(startTime)) {
+            //setPostValue((postValue.end_time = selectStartDay));
+            setEndTime(selectStartDay.toISOString().split('T')[0]);
+        } else {
+            alert('set end time error');
+        }
+    };
     const handleChangeInput = (e, fieldName) => {
         const { value } = e.target;
         console.log(`Updating ${fieldName} to ${value}`);
@@ -88,7 +118,16 @@ function CreatePost() {
         // console.log('selecttec room', postValue.description);
         // console.log('selecttec room', postValue.title);
         // console.log('selecttec room', postValue.roomNameDto);
-        if (postValue.hotelId && postValue.title && postValue.description && postValue.idroomDto) {
+
+        if (
+            postValue.hotelId &&
+            postValue.title &&
+            postValue.description &&
+            postValue.idroomDto &&
+            postValue.discount &&
+            startTime &&
+            endTime
+        ) {
             const selectedRoom = availableRooms.find((room) => (room.idroomDto = postValue.idroomDto));
             // console.log('selecttec room', selectedRoom);
             if (selectedRoom) {
@@ -109,10 +148,19 @@ function CreatePost() {
     };
 
     const handleSave = async () => {
-        console.log({
+        if (postValue.title.length < 7) {
+            alert('Title must be at least 7 characters long.');
+        }
+        if (postValue.description.length < 15) {
+            alert('Title must be at least 15 characters long.');
+        }
+        console.log('Fetch data', {
             hotelId: postValue.hotelId,
             title: postValue.title,
             description: postValue.description,
+            discount: postValue.discount,
+            end_time: startTime,
+            start_time: endTime,
             roomId: rooms.map((room) => room.idroomDto),
         });
         try {
@@ -120,19 +168,17 @@ function CreatePost() {
                 hotelId: postValue.hotelId,
                 title: postValue.title,
                 description: postValue.description,
+                discount: postValue.discount,
+                end_time: endTime,
+                start_time: startTime,
                 roomId: rooms.map((room) => room.idroomDto),
             };
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:8082/api/createPost', requestData, {
+            const response = await axios.post('http://localhost:8082/api/post/createPost', requestData, {
                 headers: { Authorization: 'Bearer ' + token },
             });
-
-            if (response.status === 201) {
-                alert('Post created successfully');
-            } else {
-                // console.error('Error creating post', response.data);
-                alert('Error creating post');
-            }
+            alert(response.data);
+            console.log(response);
         } catch (error) {
             console.error('Error creating post', error.message);
             alert('Error creating post');
@@ -193,6 +239,39 @@ function CreatePost() {
                             onChange={(e) => handleChangeInput(e, 'description')}
                         />
                     </div>
+                    <div>
+                        <label>Discount</label>
+                        <input
+                            type="number"
+                            min={0.1}
+                            step={0.1}
+                            max={1}
+                            className={styles.cratePostBodyInput}
+                            value={postValue.discount}
+                            onChange={(e) => handleChangeInput(e, 'discount')}
+                        />
+                    </div>
+                    <div>
+                        <label>Start Time</label>
+                        <input
+                            type="date"
+                            className={styles.cratePostBodyInput}
+                            value={startTime}
+                            min={getTodayDate()}
+                            onChange={handleSelectStartDate}
+                        />
+                    </div>
+                    <div>
+                        <label>End Time</label>
+                        <input
+                            type="date"
+                            className={styles.cratePostBodyInput}
+                            value={endTime}
+                            min={startTime}
+                            onChange={handleSelectEndDate}
+                        />
+                    </div>
+
                     {postValue.hotelId && postValue.title && postValue.description && (
                         <>
                             <div>

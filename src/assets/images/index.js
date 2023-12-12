@@ -8,7 +8,7 @@ const image = {
     homePageLogo: require('~/assets/images/home-page.svg').default,
     ticketPageLogo: require('~/assets/images/my-ticket-page.svg').default,
     blogPageLogo: require('~/assets/images/blog-page.svg').default,
-    aboutPageLogo: require('~/assets/images/about-page.svg').default,
+    createPostPageLogo: require('~/assets/images/about-page.svg').default,
     fakeAvatar: require('~/assets/images/fake-avatar.jpg'), // nho xoa
     noImage: require('~/assets/images/no_image.png'),
     barcode: require('~/assets/images/barcode-svgrepo-com.svg').default, //nho xoa
