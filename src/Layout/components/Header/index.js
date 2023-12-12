@@ -114,6 +114,11 @@ function Header({ onToggleMenu }) {
                                     Login
                                 </Button>
                             </div>
+                            <div className={cx('action')}>
+                                <Button primary to={'/profile'}>
+                                    Profile
+                                </Button>
+                            </div>
                         </>
                     )}
                 </div>

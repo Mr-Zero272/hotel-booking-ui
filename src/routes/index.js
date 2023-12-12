@@ -11,6 +11,8 @@ import HotelDetails from '~/pages/Hotel';
 import CreatePost from '~/pages/CreatePost';
 import Admin from '~/Admin/admin';
 
+import Profile from '~/pages/Profile/index';
+
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/about', component: About },
@@ -22,6 +24,7 @@ const publicRoutes = [
     { path: '/hotel/:id', component: HotelDetails },
     { path: '/admin', component: Admin },
     { path: '/createpost', component: CreatePost, layout: HeaderOnly },
+    { path: '/profile', component: Profile, layout: HeaderOnly }
 ];
 
 const privateRoutes = [];
