@@ -12,6 +12,7 @@ function Room_EditForm() {
     const {id} = useParams()
 
     const [values, setValues] = useState({
+        hotel_id: '',
         id: '',
         name: '',
         description: '',
@@ -30,8 +31,9 @@ function Room_EditForm() {
     }, [])
 
     const loadRoom = async()=>{
-        const result = await axios.get(`http://localhost:8082/api/room/${id}`)
+        const result = await axios.get(`http://localhost:8082/api/room/room-id/${id}`)
         setValues(result.data);
+        console.log(result.data);
     }
 
     function handleChange(e) {
@@ -65,7 +67,7 @@ function Room_EditForm() {
           } 
         }).then((res)=>{
             console.log("Successfully !")
-            navigate("/room-list");
+            navigate("/room-list/" + values.hotel_id);
         }).catch(function(err){
           console.log(err + 'handleSubmit');
         })

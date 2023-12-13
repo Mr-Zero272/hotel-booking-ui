@@ -110,6 +110,7 @@ function Room_AddForm() {
             } 
             }).then((res)=>{
                 console.log("Successfully !")
+                navigate("/room-list/" + values.hotel);
             }).catch(function(err){
             console.log(err + 'handleSubmit');
             })
