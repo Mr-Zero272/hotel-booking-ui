@@ -21,10 +21,8 @@ function validation(values) {
         errors.currentPrice = 'Please enter a valid price. This field is required';
     }
 
-    if (!values.roomTypeId) {
+    if (!values.roomType) {
         errors.roomTypeId = 'Please enter a valid type. This field is required';
-    } else if (values.roomTypeId.length < 2) {
-        errors.roomTypeId = 'Type must be more than 2 char';
     }
 
     if (!values.state) {

@@ -13,7 +13,7 @@ function validation(values) {
 
     if (!values.description) {
         errors.description = 'Please enter a valid description. This field is required';
-    } else if (values.description.length < 10) {
+    } else if (values.description.length < 1) {
         errors.description = 'Description must be more than 10 char';
     }
 
@@ -21,24 +21,14 @@ function validation(values) {
         errors.currentPrice = 'Please enter a valid price. This field is required';
     }
 
-    if (!values.roomTypeId) {
+    if (!values.roomType) {
         errors.roomTypeId = 'Please enter a valid type. This field is required';
-    }
-
-    if (!values.state) {
-        errors.state = 'Please enter a valid state. This field is required';
     }
 
     if (!values.capacity) {
         errors.capacity = 'Please enter a valid capacity. This field is required';
-    } else if (values.capacity < 10) {
+    } else if (values.capacity < 1) {
         errors.capacity = 'Capacity must be more than 10';
-    }
-
-    if (!values.ratingAvg) {
-        errors.ratingAvg = 'Please enter a valid capacity. This field is required';
-    } else if (values.ratingAvg > 5) {
-        errors.ratingAvg = 'Not lớn hơn 5 bro !';
     }
 
     return errors;
