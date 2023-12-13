@@ -85,7 +85,7 @@ function Header({ onToggleMenu }) {
                                 </Button>
                             </div>
                             <div className={cx('action')}>
-                                <Link to="/profile" className={cx('more-btn')}>
+                                <Link to={`/profile/${currentUser.name}`} className={cx('more-btn')}>
                                     {/* <Image className={cx('user-avatar')} src={avatar} alt="avatar" ref={imageRef} /> */}
                                     {/* <img className={cx('user-avatar')} src={avatar} alt="avatar" ref={imageRef} /> */}
                                     <img
@@ -97,7 +97,7 @@ function Header({ onToggleMenu }) {
                                 </Link>
                             </div>
                             <div className={cx('action')}>
-                                <Button text onClick={() => dispatch(userActions.logout())}>
+                                <Button to={`/`} text onClick={() => dispatch(userActions.logout())}>
                                     Logout
                                 </Button>
                             </div>
@@ -114,11 +114,7 @@ function Header({ onToggleMenu }) {
                                     Login
                                 </Button>
                             </div>
-                            <div className={cx('action')}>
-                                <Button primary to={'/profile'}>
-                                    Profile
-                                </Button>
-                            </div>
+
                         </>
                     )}
                 </div>

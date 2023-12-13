@@ -26,7 +26,7 @@ function LoginForm() {
         if (Object.keys(validation(values)).length === 0) {
             const login = async () => {
                 try {
-                    const result = await axios.post('http://localhost:8080/api/v1/auth/authenticate', {
+                    const result = await axios.post('http://localhost:8082/api/v1/auth/authenticate', {
                         email: values.username,
                         password: values.password,
                     });
