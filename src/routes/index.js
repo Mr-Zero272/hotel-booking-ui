@@ -10,6 +10,9 @@ import YourTickets from '~/pages/YourTickets';
 import HotelDetails from '~/pages/Hotel';
 import CreatePost from '~/pages/CreatePost';
 import Admin from '~/Admin/admin';
+import Room from '~/pages/Room';
+import Room_Add from '~/pages/Room_Add';
+import Room_Edit from '~/pages/Room_Edit';
 
 import Profile from '~/pages/Profile/index';
 
@@ -24,7 +27,10 @@ const publicRoutes = [
     { path: '/hotel/:id', component: HotelDetails },
     { path: '/admin', component: Admin },
     { path: '/createpost', component: CreatePost, layout: HeaderOnly },
-    { path: '/profile', component: Profile, layout: HeaderOnly }
+    { path: '/profile', component: Profile, layout: HeaderOnly },
+    { path: '/room-list/:id', component: Room },
+    { path: '/room-add', component: Room_Add, layout: HeaderOnly},
+    { path: '/room-edit/:id', component: Room_Edit },
 ];
 
 const privateRoutes = [];

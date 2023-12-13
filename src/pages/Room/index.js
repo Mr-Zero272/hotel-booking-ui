@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faGoogle } from '@fortawesome/free-brands-svg-icons';
-import RoomType from '~/components/Modal/RoomType/RoomType';
 import RoomState from '~/components/Modal/RoomState/RoomState';
 import styles from './Room.module.scss';
-import "./Room.scss";
 import Button from '~/components/Button';
 import classNames from 'classnames/bind';
 import axios from 'axios';
@@ -16,109 +14,102 @@ function ListRoom() {
 
     let navigate = useNavigate();
 
-    const { id } = useParams();
+    const {id} = useParams();
 
-    const [rooms, setRooms] = useState([]);
+    const [rooms, setRooms ] = useState([]);
 
+    const initialHotel = {
+        id: null,
+        name: '',
+        address: '',
+        description: '',
+        ratingAvg: null,
+        stars: null,
+        rooms: [],
+    };
+
+    const [hotel, setHotel] = useState(initialHotel);
+    const [loading, setLoading] = useState(true);
     const [errors, setErrors] = useState({});
+    const [data, setData] = useState('Hello World')
 
-    useEffect(() => {
+    useEffect(()=>{
         getAllRoom()
     }, [])
 
-    const getAllRoom = () => {
-        const id = 1;
+    const getAllRoom = ()=>{
         axios({
-            url: "http://localhost:8080/api/room/list",
-            method: "GET"
-        }).then((res) => {
-            setRooms(res.data)
-            console.log(res.data)
-        }).catch(function (err) {
-            console.log(err + 'getAllRoom');
+          url: `http://localhost:8082/api/room/hotel-id/${id}`,
+          method: "GET"
+        }).then((res)=>{
+            setHotel(res.data);
+            setLoading(false);
+            console.log(res.data);
+
+            const data_res = res.data;
+            setRooms(data_res.rooms);
+            console.log(rooms);
+        }).catch(function(err){
+          console.log(err + 'getAllRoom');
         })
     }
 
-    const deleteRoom = (item) => {
+    const deleteRoom = (item) =>{
         axios({
-            url: "http://localhost:8080/api/room/delete/" + item.id,
-            method: "DELETE"
-        }).then((res) => {
+          url: "http://localhost:8082/api/room/delete/" + item.id,
+          method: "DELETE" 
+        }).then((res)=>{
             getAllRoom();
-        }).catch(function (err) {
-            console.log(err + ' deleteRoom');
+        }).catch(function(err)
+        {
+          console.log(err + ' deleteRoom');
         })
-    }
+      }
 
     return (
-        <div>
-            <h2 className='text-center'>List Room of Hodel #</h2>
+        <div className='container'>
+            <br></br>
+            <h2 className='text-center'>DANH SÁCH PHÒNG</h2>
             <div className={cx('action')}>
-                <Button text to={'/room-add'}>
-                    Add Room
-                </Button>
-            </div>
+                                <Button style={{width: 150, height: 40}} className='btn btn-primary' text to={'/room-add'}>
+                                    <h4>THÊM PHÒNG</h4>
+                                </Button>
+                            </div>
             <div className='row'>
                 <table className='table table-striped table-bordered'>
-                    <thead>
+                    <thead className="table-dark">
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Capacity</th>
-                            <th>Type</th>
-                            <th>State</th>
-                            <th colSpan={2}>Action</th>
+                            <th>Tên phòng</th>
+                            <th>Mô tả</th>
+                            <th>Diện tích</th>
+                            <th>Tình trạng phòng</th>
+                            <th colSpan="2">Thao tác</th>
+                            
                         </tr>
                     </thead>
 
                     <tbody>
-                        {rooms?.map((item, index) => {
-                            return (
+                        { rooms?.map((item, index)=>{
+                            return(
                                 <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.hotel.id}</td>
+                                    <td>{item.name}</td>
                                     <td>{item.description}</td>
                                     <td>{item.capacity} m2</td>
-                                    <td> {item.roomTypeId}--
-                                        <RoomType data={item.id} />
-                                    </td>
-
                                     <td>
-
-                                        {item.state == 1 && (
-                                            <p>EMPTY</p>
-                                        )}
-
-                                        {item.state == 2 && (
-                                            <p>FULL</p>
-                                        )}
-
-                                        {item.state == 3 && (
-                                            <p>Ordered</p>
-                                        )}
-
-                                        <RoomState data={item.id} />
+                                        <RoomState data={item.id} /> 
                                     </td>
-
                                     <td>
-                                        <div className={cx('action')}>
-                                            <Link className='btn btn-outline-primary mx-2'
-                                                to={`/room-edit/${item.id}`}>
-                                                Edit
-                                            </Link>
-                                        </div>
+                                        <Link style={{width: 110, height: 40,}} className='btn btn-warning' 
+                                            to = {`/room-edit/${item.id}`}>
+                                            <h4>CHỈNH SỬA</h4>
+                                        </Link>
                                     </td>
-
                                     <td>
-                                        <div className={cx('action')}>
-                                            <button onClick={() => deleteRoom(item)}>Delete</button>
-                                        </div>
+                                        <button style={{width: 110, height: 40,}} type='button' className='btn btn-danger' onClick={() => deleteRoom(item)}><h4>XÓA</h4></button>                                         
                                     </td>
                                 </tr>
                             )
                         })
-
                         }
                     </tbody>
                 </table>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './Room_Add.scss';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faGoogle } from '@fortawesome/free-brands-svg-icons';
@@ -13,11 +12,12 @@ function Room_EditForm() {
     const {id} = useParams()
 
     const [values, setValues] = useState({
+        id: '',
         name: '',
         description: '',
         hotel: '',
         currentPrice: '',
-        roomTypeId: '',
+        roomType: '',
         state: '',
         capacity: '',
         ratingAvg: '',
@@ -30,7 +30,7 @@ function Room_EditForm() {
     }, [])
 
     const loadRoom = async()=>{
-        const result = await axios.get(`http://localhost:8080/api/room/${id}`)
+        const result = await axios.get(`http://localhost:8082/api/room/${id}`)
         setValues(result.data);
     }
 
@@ -45,12 +45,11 @@ function Room_EditForm() {
             alert('Form Submitted successfully');
         }
         
-        let room = { hotel: values.hotel,
-                     name : values.name,
+        let room = { name : values.name,
                      description: values.description,
                      currentPrice: values.currentPrice,
-                     roomTypeId: values.roomTypeId,
-                     state: values.state,
+                     roomType: values.roomType,
+                     state : values.state,
                      capacity: values.capacity,
                      ratingAvg: values.ratingAvg
                      };
@@ -58,7 +57,7 @@ function Room_EditForm() {
          console.log('room =>' + JSON.stringify(room));
         
         axios({
-          url: `http://localhost:8080/api/room/edit/${id}`,
+          url: `http://localhost:8082/api/room/edit/${id}`,
           method: "PUT",
           data: room,
           headers: {
@@ -66,20 +65,20 @@ function Room_EditForm() {
           } 
         }).then((res)=>{
             console.log("Successfully !")
-            navigate("/");
+            navigate("/room-list");
         }).catch(function(err){
           console.log(err + 'handleSubmit');
         })
     }
 
     return (
-        <div className="login_container">
-            <div className="login-form">
-                <h1>Edit Room #</h1>
+        <div className="addroom_container">
+            <div className="addroom_form">
+                <h1>Chỉnh Sửa Thông Tin Phòng</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="container">
                         <div className='row g-3'>
-                            <div className='col-sm'>
+                            {/* <div className='col-sm'>
                                 <label htmlFor="hotel">
                                     <b>Hotel</b>
                                 </label>
@@ -91,10 +90,10 @@ function Room_EditForm() {
                                     onChange={handleChange}
                                 />
                                 {errors.hotel && <p style={{ color: 'red' }}>{errors.hotel}</p>}
-                            </div>
+                            </div> */}
                             <div className='col-sm'>
                                 <label htmlFor="name">
-                                    <b>Name</b>
+                                    <b>Tên Phòng</b>
                                 </label>
                                 <input
                                     type="text"
@@ -106,8 +105,22 @@ function Room_EditForm() {
                                 {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
                             </div>
 
+                            <div className='col-sm'>
+                                <label htmlFor="currentPrice">
+                                    <b>Giá</b>
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter Price"
+                                    value={values.currentPrice}
+                                    name="currentPrice"
+                                    onChange={handleChange}
+                                />
+                                {errors.currentPrice && <p style={{ color: 'red' }}>{errors.currentPrice}</p>}
+                            </div>
+
                             <label htmlFor="description">
-                                    <b>Description</b>
+                                    <b>Mô Tả</b>
                                 </label>
                                 <input
                                     type="text"
@@ -117,46 +130,20 @@ function Room_EditForm() {
                                     onChange={handleChange}
                                 />
                                 {errors.description && <p style={{ color: 'red' }}>{errors.description}</p>}
-
-
-                            <label htmlFor="currentPrice">
-                                <b>Current Price</b>
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="Enter Price"
-                                value={values.currentPrice}
-                                name="currentPrice"
-                                onChange={handleChange}
-                            />
-                            {errors.currentPrice && <p style={{ color: 'red' }}>{errors.currentPrice}</p>}
                             
                             <div className='row g-3'>
                                 <div className='col-sm'>
                                     <label htmlFor="roomTypeId">
-                                        <b>Type</b>
+                                        <b>Loại</b>
                                     </label>
                                     <input
                                         type="text"
                                         placeholder="Enter Type"
-                                        value={values.roomTypeId}
-                                        name="roomTypeId"
+                                        value={values.roomType}
+                                        name="roomType"
                                         onChange={handleChange}
                                     />
                                     {errors.roomTypeId && <p style={{ color: 'red' }}>{errors.roomTypeId}</p>}
-                                </div>
-                                <div className='col-sm'>
-                                    <label htmlFor="state">
-                                        <b>State</b>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter State"
-                                        value={values.state}
-                                        name="state"
-                                        onChange={handleChange}
-                                    />
-                                    {errors.state && <p style={{ color: 'red' }}>{errors.state}</p>}
                                 </div>
                             </div>
 
@@ -174,24 +161,11 @@ function Room_EditForm() {
                                     />
                                     {errors.capacity && <p style={{ color: 'red' }}>{errors.capacity}</p>}
                                 </div>
-                                <div className='col-sm'>
-                                    <label htmlFor="ratingAvg">
-                                        <b>Rating</b>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter Rating"
-                                        value={values.ratingAvg}
-                                        name="ratingAvg"
-                                        onChange={handleChange}
-                                    />
-                                    {errors.ratingAvg && <p style={{ color: 'red' }}>{errors.ratingAvg}</p>}
-                                </div>
                             </div>
                         </div>
                     </div>
                     <div className="container">
-                        <button type="submit">Add</button>
+                        <button type="submit">XÁC NHẬN</button>
                     </div>
                 </form>
             </div>

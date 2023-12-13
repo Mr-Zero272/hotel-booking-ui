@@ -1,29 +1,31 @@
-.login_container {
+.addroom_container {
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 20px;
-    background: linear-gradient(to bottom left, #add8e6, #6495ed, transparent),
-        linear-gradient(to top right, #ff69b4, #ff1493, transparent);
 }
 
-.login-form {
+.addroom_form {
     font-family: Arial, Helvetica, sans-serif;
-    width: 35%;
-    height: 800px;
+    width: 55%;
+    height: 600px;
+    border: 5px;
+    border-color: black;
     animation: slideInFromTop 1s ease forwards;
-    background: linear-gradient(45deg, #ff1493, #9400d3, #6495ed, #32cd32, #ff5733);
+    background-color: #DCDCDC;
 
     form {
         padding: 1.5rem;
         text-align: center;
         border-radius: 5px;
         min-height: 100%;
+        border-width: 10px;
+         border-color: black;
     }
 
     h1 {
         text-align: center;
-        background: linear-gradient(45deg, #ff1493, #9400d3, #6495ed, #32cd32, #ff5733);
+        // background: linear-gradient(45deg, #ff1493, #9400d3, #6495ed, #32cd32, #ff5733);
     }
 
     .img-container {
@@ -40,6 +42,8 @@
         display: flex;
         flex-direction: column;
         text-align: left;
+        border-width: 10px;
+        border-color: black;
     }
 
     label {
@@ -54,7 +58,7 @@
         border: 1px solid #ccc;
         box-sizing: border-box;
         border-radius: 10px;
-        background: linear-gradient(to bottom left, #ff69b4, #6495ed, transparent);
+        // background: linear-gradient(to bottom left, #ff69b4, #6495ed, transparent);
         transition: background 0.3s;
     }
 
